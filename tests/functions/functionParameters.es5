@@ -1,0 +1,34 @@
+// Copyright (c) Alvin Pivowar 2016
+
+describe("es5-function-parameters", function() {
+
+    // EX: FP5-DEFAULT
+
+    it("passing-value-arrays", function() {
+        function addOrIncFn(x, y) {
+            y = y || 1;
+            return x + y;
+        }
+
+        expect(addOrIncFn(12, 34)).toBe(46);
+        expect(addOrIncFn(13)).toBe(14);
+
+        var data = [56, 78];
+        var result = addOrIncFn.apply(null, data);
+        expect(result).toBe(134);
+    });
+
+    // EX: FP5-REST
+
+    it("passing-variable-number-of-parameters", function() {
+        function formatter(format) {
+            var args = Array.prototype.slice.call(arguments, formatter.length);
+            for (var i = 0; i < args.length; ++i) {
+                format = format.replace("{" + i + "}", args[i]);
+            }
+            return format;
+        }
+
+        expect(formatter("Hello there, {0}!", "smedley")).toBe("Hello there, smedley!");
+    });
+});

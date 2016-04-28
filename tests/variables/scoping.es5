@@ -1,0 +1,109 @@
+// Copyright (c) Alvin Pivowar 2016
+
+describe("es5-scoping", function() {
+    function ResultAggregator() {
+        this.producers = [];
+        this.results = [];
+    }
+
+    ResultAggregator.prototype = {
+        addResult: function(result) {
+            this.results.push(result);
+        },
+        next: function() {
+            return this.results.shift();
+        },
+        registerProducer: function(fn) {
+            this.producers.push(fn);
+        },
+        runProducers: function() {
+            for (var i = 0; i < this.producers.length; ++i) {
+                this.results.push(this.producers[i]());
+            }
+        }
+    };
+
+    //EX: VS5-HOISTING
+
+    // Variables in ES5 are "hoisted" to the first enclosing function scope.
+    it("variables-are-function-scoped", function() {
+        var aggregator = new ResultAggregator();
+        var x = 1;
+
+        if (x) {
+            var y = 2;
+        }
+
+        aggregator.addResult(x);
+        aggregator.addResult(y);
+
+        expect(aggregator.next()).toBe(1);
+        expect(aggregator.next()).toBe(2);
+    });
+
+    // The previous is equivalent to this:
+    it("variables-are-function-scoped", function() {
+        var aggregator = new ResultAggregator();
+        var x = 1;
+        var y;
+
+        if (x) {
+            y = 2;
+        }
+
+        aggregator.addResult(x);
+        aggregator.addResult(y);
+
+        expect(aggregator.next()).toBe(1);
+        expect(aggregator.next()).toBe(2);
+    });
+
+    // EX: VS5-SCOPING
+
+    // This won't work (as expected) because the loop iterator is not scoped to the loop.
+    it("badly written callback example", function() {
+        var aggregator = new ResultAggregator();
+
+        for (var i = 0; i < 10; ++i) {
+            aggregator.registerProducer(function() { return i; });
+        }
+
+        aggregator.runProducers();
+
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+        expect(aggregator.next()).toBe(10);
+    });
+
+    // When we wrap the registration call in an IIFE, we create a new function scope.
+    it("callback-with-IIFE", function() {
+        var aggregator = new ResultAggregator();
+
+        for (var i = 0; i < 10; ++i) {
+            (function(iife) {
+                aggregator.registerProducer(function() { return iife.i; });
+            })({i: i});
+        }
+
+        aggregator.runProducers();
+
+        expect(aggregator.next()).toBe(0);
+        expect(aggregator.next()).toBe(1);
+        expect(aggregator.next()).toBe(2);
+        expect(aggregator.next()).toBe(3);
+        expect(aggregator.next()).toBe(4);
+        expect(aggregator.next()).toBe(5);
+        expect(aggregator.next()).toBe(6);
+        expect(aggregator.next()).toBe(7);
+        expect(aggregator.next()).toBe(8);
+        expect(aggregator.next()).toBe(9);
+    });
+});
+

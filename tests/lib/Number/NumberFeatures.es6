@@ -40,11 +40,11 @@ describe("es6-number-features", () => {
         expect(Math.log1p(9)).toBe(2.302585092994046);      // log base e of (1 + n)
         expect(Math.log2(8)).toBe(3);                       // log base 2
 
-        expect(Math.sinh(12 + 34) === Math.sinh(12) * Math.cosh(34) + Math.cosh(12) * Math.sinh(34)).toBeTruthy();
+        expect(Math.sinh(12 + 34) - (Math.sinh(12) * Math.cosh(34) + Math.cosh(12) * Math.sinh(34)) <= Number.EPSILON).toBeTruthy();
         expect(Math.asinh(12) === 1 / Math.sinh(12));
         expect(Math.acos(34) === 1 / Math.acosh(34));
 
-        expect(Math.tanh(12) === Math.sinh(12) / Math.cosh(12)).toBeTruthy();
+        expect(Math.tanh(12) - (Math.sinh(12) / Math.cosh(12)) <= Number.EPSILON).toBeTruthy();
         expect(Math.atanh(0)).toBe(0);
 
         // 3 ^ 2 + 4 ^ 2 == 5 ^2

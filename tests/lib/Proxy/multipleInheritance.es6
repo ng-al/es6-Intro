@@ -42,60 +42,62 @@ describe("multiple-inheritance-with-proxies", () => {
     // to discriminate between two getter methods in the prototype chain having the same name.
     // This uses findBySymbol().
 
-    class MultipleInheritance {
-        constructor() {
-            this.isInitalized = false;
-            this.prototypes = [];
-        }
-
-        executeGet(prototype, property, receiver) {
-            return (typeof(prototype[property]) === "function")
-                ? (...args) => Reflect.apply(prototype[property], prototype, args)
-                : Reflect.get(prototype, property, receiver);
-        }
-
-        findByName(property, receiver) {
-            for (let prototype of this.prototypes) {
-                if (Reflect.has(prototype, property))
-                    return this.executeGet(prototype, property, receiver);
+    /*  class is defined in samples
+        class MultipleInheritance {
+            constructor() {
+                this.isInitalized = false;
+                this.prototypes = [];
             }
 
-            // This will throw a not-found error.
-            return Reflect.get({}, property, receiver);
-        }
+            executeGet(prototype, property, receiver) {
+                return (typeof(prototype[property]) === "function")
+                    ? (...args) => Reflect.apply(prototype[property], prototype, args)
+                    : Reflect.get(prototype, property, receiver);
+            }
 
-        findBySymbol(discriminatedProperty, receiver) {
-            const $$className = Symbol.for("className");
-            let [property, discriminator] = discriminatedProperty.split("ϵ");
+            findByName(property, receiver) {
+                for (let prototype of this.prototypes) {
+                    if (Reflect.has(prototype, property))
+                        return this.executeGet(prototype, property, receiver);
+                }
 
-            for (let prototype of this.prototypes) {
-                if (Reflect.has(prototype, $$className) &&
-                    prototype[$$className].toLowerCase() === discriminator.toLowerCase()) {
+                // This will throw a not-found error.
+                return Reflect.get({}, property, receiver);
+            }
 
-                    return this.executeGet(prototype, property, receiver);
+            findBySymbol(discriminatedProperty, receiver) {
+                const $$className = Symbol.for("className");
+                let [property, discriminator] = discriminatedProperty.split("ϵ");
+
+                for (let prototype of this.prototypes) {
+                    if (Reflect.has(prototype, $$className) &&
+                        prototype[$$className].toLowerCase() === discriminator.toLowerCase()) {
+
+                        return this.executeGet(prototype, property, receiver);
+                    }
+                }
+
+                return Reflect.get({}, property, receiver);
+            }
+
+
+            get(target, property, receiver) {
+                this.initialize(target);
+
+                return (property.includes("ϵ"))
+                    ? this.findBySymbol(property, receiver)
+                    : this.findByName(property, receiver);
+            }
+
+            initialize(target) {
+                if (!this.isInitalized) {
+                    if (target && typeof(target[Symbol.iterator]) == "function")
+                        this.prototypes.push(...target);
+                    this.isInitalized = true;
                 }
             }
-
-            return Reflect.get({}, property, receiver);
         }
-
-
-        get(target, property, receiver) {
-            this.initialize(target);
-
-            return (property.includes("ϵ"))
-                ? this.findBySymbol(property, receiver)
-                : this.findByName(property, receiver);
-        }
-
-        initialize(target) {
-            if (!this.isInitalized) {
-                if (target && typeof(target[Symbol.iterator]) == "function")
-                    this.prototypes.push(...target);
-                this.isInitalized = true;
-            }
-        }
-    }
+    */
 
     it("a-bat-is-a-winged-mammal", () => {
         class Bat /* extends WingedAnimal, Mammal */ {

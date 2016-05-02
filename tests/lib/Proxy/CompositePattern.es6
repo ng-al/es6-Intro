@@ -89,42 +89,45 @@ describe("composite-pattern-proxy", () => {
     // but HASA collection of filters.
     // Since we want to filter by red AND lightness, we will create a conjunctive (AND) composite.
 
-    class ConjunctionCompositePattern {
-        constructor(methodName) {
-            this.isInitalized = false;
-            this.methodName = methodName;
-            this.terms = [];
-        }
+    /*  Class is defined in samples
+
+        class ConjunctionCompositePattern {
+            constructor(methodName) {
+                this.isInitialized = false;
+                this.methodName = methodName;
+                this.terms = [];
+            }
 
 
-        get(target, property, receiver) {
-            this.initialize(target);
-            const handler = this;
+            get(target, property, receiver) {
+                this.initialize(target);
+                const handler = this;
 
-            if (property == this.methodName) return item => {
-                for (let term of handler.terms) {
-                    if (!term[handler.methodName](item))
-                        return false;
+                if (property == this.methodName) return item => {
+                    for (let term of handler.terms) {
+                        if (!term[handler.methodName](item))
+                            return false;
+                    }
+                    return true;
+                };
+
+                if (property == "add") return term => {
+                    handler.terms.push(term);
+                };
+
+
+                return Reflect.get(target, property, receiver);
+            }
+
+            initialize(target) {
+                if (!this.isInitialized) {
+                    if (target && typeof(target[Symbol.iterator]) == "function")
+                        this.terms.push(...target);
+                    this.isInitialized = true;
                 }
-                return true;
-            };
-
-            if (property == "add") return term => {
-                handler.terms.push(term);
-            };
-
-
-            return Reflect.get(target, property, receiver);
-        }
-
-        initialize(target) {
-            if (!this.isInitalized) {
-                if (target && typeof(target[Symbol.iterator]) == "function")
-                    this.terms.push(...target);
-                this.isInitalized = true;
             }
         }
-    }
+    */
 
     it("composite-test-add", () => {
         let filter = new Proxy({}, new ConjunctionCompositePattern("accept"));

@@ -1,24 +1,26 @@
 // Copyright (c) Alvin Pivowar 2016
 
 describe("lazy-pattern-proxy", () => {
-    class LazyPattern {
-        constructor(...args) {
-            this.args = args;
-            this.value = null;
+    /*  class is defined in samples
+        class LazyPattern {
+            constructor(...args) {
+                this.args = args;
+                this.value = null;
+            }
+
+            get(factory, property, receiver) {
+                if (property === "hasValue")
+                    return !!this.value;
+
+                if (!this.value)
+                    this.value = Reflect.construct(factory, this.args);
+
+                return (property === "value")
+                    ? this.value
+                    : Reflect.get(this.value, property, receiver);
+            }
         }
-
-        get(factory, property, receiver) {
-            if (property === "hasValue")
-                return !!this.value;
-
-            if (!this.value)
-                this.value = Reflect.construct(factory, this.args);
-
-            return (property === "value")
-                ? this.value
-                : Reflect.get(this.value, property, receiver);
-        }
-    }
+    */
 
     class Point {
         constructor(x = 0, y = 0) {

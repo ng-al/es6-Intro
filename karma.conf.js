@@ -18,6 +18,9 @@ module.exports = function(config) {
         'node_modules/babel-polyfill/dist/polyfill.js',
         'node_modules/harmony-reflect/reflect.js',
         'node_modules/unorm/lib/unorm.js',
+
+        'samples/*.js', // .es6 => .js
+
         'tests/**/*.es5',
         'tests/**/*.js' // .es6 => .js
     ],
@@ -25,7 +28,6 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-        "tests/lib/Proxy/**/*.js"
     ],
 
 
@@ -43,8 +45,7 @@ module.exports = function(config) {
     plugins: [
         'karma-chrome-launcher',
         'karma-jasmine',
-        'karma-mocha-reporter',
-        'karma-phantomjs-launcher'
+        'karma-mocha-reporter'
     ],
 
     // web server port
@@ -66,7 +67,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
 
     // Continuous Integration mode

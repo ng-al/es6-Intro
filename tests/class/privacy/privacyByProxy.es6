@@ -4,7 +4,6 @@ describe("privacy-by-proxy", () => {
 
     class PasswordService {
         getPasswordComplexity(password) {
-            console.log("In gpc: " + password);
             let score = 0;
             if (password && password.length >= 6) score += 10;
             if (password && password.length >= 8) ++score;
@@ -67,7 +66,7 @@ describe("privacy-by-proxy", () => {
         getPasswordComplexity = λ => this._service.getPasswordComplexity(this._password);
     }
 
-    xit("internal-username-tests", () => {
+    it("internal-username-tests", () => {
         class InternalUsername extends Username {}
 
         // Create object with no username/password.

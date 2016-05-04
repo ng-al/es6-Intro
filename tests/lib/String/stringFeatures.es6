@@ -41,7 +41,6 @@ describe("es6-string-features", () => {
     it("string-methods", () => {
         const sentence = "The quick brown fox jumps over the lazy dog";
 
-        //console.log()
         expect(sentence.endsWith("lazy", 39)).toBeTruthy();
         expect(sentence.includes("jump")).toBeTruthy();
         expect(sentence.startsWith("quick", 4)).toBeTruthy();

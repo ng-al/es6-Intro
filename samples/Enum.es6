@@ -163,12 +163,19 @@ describe("enum-tests", () => {
         Blue: 3
     });
 
+    const Other = new Enum({ Red: 1 });
+
     it("enum-color-test", () => {
         expect(Color.Red.key).toBe("Red");
         expect(Color.Red.value).toBe(1);
         expect(Color.Red === Color.Red).toBeTruthy();
         expect(Color.Red === Color.Green).toBeFalsy();
         expect(Color.Blue.toString()).toBe("Blue");
+        expect(Enum.toString(Color, 3)).toBe("Blue");
+
+        expect(Color.Red === Other.Red).toBeFalsy();
+        expect(Color.Red).not.toEqual(Other.Red);
+
 
         let keys = [];
         let values = [];

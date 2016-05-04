@@ -30,11 +30,11 @@ describe("es6-function-parameters", () => {
 
     // EX: FP6-REST
 
-    it("passing-variable-number-of-parameters", function() {
-        function formatter(format, ...args) {
+    it("passing-variable-number-of-parameters", () => {
+        const formatter = (format, ...args) => {
             args.forEach((arg, i) => format = format.replace("{" + i + "}", args[i]));
             return format;
-        }
+        };
 
         expect(formatter("Hello there, {0}!", "smedley")).toBe("Hello there, smedley!");
     });
@@ -62,7 +62,7 @@ describe("es6-function-parameters", () => {
     });
 
     it("object-deconstructuring-parameters", () => {
-        const fullName = ({firstName, lastName}) => `${firstName} ${lastName}`;
+        const fullName = ({ firstName, lastName }) => `${firstName} ${lastName}`;
 
         let larry = {firstName: "Larry", lastName: "Fine"};
         expect(fullName(larry)).toBe("Larry Fine");

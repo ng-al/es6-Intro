@@ -109,6 +109,6 @@ describe("es6-map-features", () => {
         addToMap();
         setTimeout(λ => expect(wm2.has(o)).toBeFalsy(), 100);   // Garbage collected
 
-        expect(wm2.size).toBeUndefined();   // Weak Sets are NOT iterable.
+        expect(wm2.size).toBeUndefined();   // Weak Maps are NOT iterable.
     });
 });

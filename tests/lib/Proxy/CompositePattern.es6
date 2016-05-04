@@ -50,7 +50,7 @@ describe("composite-pattern-proxy", () => {
     const colorFilterService = (colors, filter) => colors.filter(color => filter.accept(color)).map(color => color.name);
 
     // A filter that selects "red" colors.
-    // A red color is defined as a color whose R component is greater than the G and B components combined.
+    // A red color is defined as a color whose R component is greater than twice the G and B components combined.
     class RedFilter extends IFilter {
         accept(color) {
             return color.r > 2 * (color.g + color.b);
@@ -65,10 +65,10 @@ describe("composite-pattern-proxy", () => {
 
     // A filter that selects light colors.
     class LightFilter extends IFilter {
-        static brightness(r, g, b) { return Math.sqrt(.241 * r * r + .691 * g * g + .068 * b * b); }
-
         accept(color) {
-            return LightFilter.brightness(color.r, color.g, color.b) > 120;
+            const brightness = (r, g, b) => Math.sqrt(.241 * r * r + .691 * g * g + .068 * b * b);
+
+            return brightness(color.r, color.g, color.b) > 120;
         }
     }
 
@@ -89,45 +89,7 @@ describe("composite-pattern-proxy", () => {
     // but HASA collection of filters.
     // Since we want to filter by red AND lightness, we will create a conjunctive (AND) composite.
 
-    /*  Class is defined in samples
-
-        class ConjunctionCompositePattern {
-            constructor(methodName) {
-                this.isInitialized = false;
-                this.methodName = methodName;
-                this.terms = [];
-            }
-
-
-            get(target, property, receiver) {
-                this.initialize(target);
-                const handler = this;
-
-                if (property == this.methodName) return item => {
-                    for (let term of handler.terms) {
-                        if (!term[handler.methodName](item))
-                            return false;
-                    }
-                    return true;
-                };
-
-                if (property == "add") return term => {
-                    handler.terms.push(term);
-                };
-
-
-                return Reflect.get(target, property, receiver);
-            }
-
-            initialize(target) {
-                if (!this.isInitialized) {
-                    if (target && typeof(target[Symbol.iterator]) == "function")
-                        this.terms.push(...target);
-                    this.isInitialized = true;
-                }
-            }
-        }
-    */
+    // The ConjunctiveCompositePattern is defined in samples/ConjunctiveCompositePattern.es6
 
     it("composite-test-add", () => {
         let filter = new Proxy({}, new ConjunctionCompositePattern("accept"));

@@ -134,7 +134,7 @@ describe("es6-class-features", () => {
                 configurable: false,
                 enumerable: true,
                 get: function() { return this.length === this.width },
-                set: function() { throw new Error("isSquare is read only.")}
+                set: undefined
             });
 
             return class extends Rectangle {

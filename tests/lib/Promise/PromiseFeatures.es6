@@ -64,7 +64,7 @@ describe("es6-promise-features", () => {
         const service1 = λ => new Promise((resolve, reject) => { setTimeout(λ => resolve("service1"), 1000); });
         const service2 = λ => new Promise((resolve, reject) => { setTimeout(λ => resolve("service2"), 2000); });
 
-        Promise.all([service2(), service1()]).then(function(data) {
+        Promise.race([service2(), service1()]).then(function(data) {
             expect(data).toBe("service1");
         }, function(error) {
             fail();
@@ -75,7 +75,7 @@ describe("es6-promise-features", () => {
         const service1 = λ => new Promise((resolve, reject) => { setTimeout(λ => resolve("service1"), 1000); });
         const service2 = λ => new Promise((resolve, reject) => { setTimeout(λ => reject("service2"), 2000); });
 
-        Promise.all([service2(), service1()]).then(function(data) {
+        Promise.race([service2(), service1()]).then(function(data) {
             expect(data).toBe("service1");
         }, function(error) {
             fail();
@@ -86,7 +86,7 @@ describe("es6-promise-features", () => {
         const service1 = λ => new Promise((resolve, reject) => { setTimeout(λ => reject("service1"), 1000); });
         const service2 = λ => new Promise((resolve, reject) => { setTimeout(λ => resolve("service2"), 2000); });
 
-        Promise.all([service2(), service1()]).then(function(data) {
+        Promise.race([service2(), service1()]).then(function(data) {
             fail();
         }, function(error) {
             expect(error).toBe("service1");
@@ -97,7 +97,7 @@ describe("es6-promise-features", () => {
         const service1 = λ => new Promise((resolve, reject) => { setTimeout(λ => reject("service1"), 1000); });
         const service2 = λ => new Promise((resolve, reject) => { setTimeout(λ => reject("service2"), 2000); });
 
-        Promise.all([service2(), service1()]).then(function(data) {
+        Promise.race([service2(), service1()]).then(function(data) {
             fail();
         }, function(error) {
             expect(error).toBe("service1");

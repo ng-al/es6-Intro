@@ -42,7 +42,7 @@ describe("es6-function-parameters", () => {
     // EX: FP6-DESTRUCTURING
 
     /*
-        Lisp-inspired example demonstrating array structuring and parameter deconstructuring.
+        Lisp-inspired example demonstrating array spreading and parameter deconstructuring.
      */
 
     const car = ([car,]) => car;

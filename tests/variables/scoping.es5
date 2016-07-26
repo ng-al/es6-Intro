@@ -10,12 +10,15 @@ describe("es5-scoping", function() {
         addResult: function(result) {
             this.results.push(result);
         },
+
         next: function() {
             return this.results.shift();
         },
+
         registerProducer: function(fn) {
             this.producers.push(fn);
         },
+
         runProducers: function() {
             for (var i = 0; i < this.producers.length; ++i) {
                 this.results.push(this.producers[i]());

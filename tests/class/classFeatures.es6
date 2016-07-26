@@ -10,7 +10,7 @@ describe("es6-class-features", () => {
         }
 
         let class2 = class {
-            _name = "class2"
+            _name = "class2";
 
             constructor(name) {
                 this._name = name;

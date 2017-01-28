@@ -66,12 +66,11 @@ var MultipleInheritance = function () {
         value: function findBySymbol(discriminatedProperty, receiver) {
             var $$className = Symbol.for("className");
 
-            var _discriminatedPropert = discriminatedProperty.split("ϵ");
+            var _discriminatedPropert = discriminatedProperty.split("ϵ"),
+                _discriminatedPropert2 = _slicedToArray(_discriminatedPropert, 2),
+                property = _discriminatedPropert2[0],
+                discriminator = _discriminatedPropert2[1];
 
-            var _discriminatedPropert2 = _slicedToArray(_discriminatedPropert, 2);
-
-            var property = _discriminatedPropert2[0];
-            var discriminator = _discriminatedPropert2[1];
             var _iteratorNormalCompletion2 = true;
             var _didIteratorError2 = false;
             var _iteratorError2 = undefined;
